@@ -67,11 +67,43 @@ We have seen how to define the database container. Now we need to build the cont
 
 I guess you figured out you need to install [Docker](https://www.docker.com/) by now. If you have not yet install it this is the right time. Don't worry, I can wait.
 
+To generate a container from the Dockerfile you can run this command:
+
 <pre><code class="language-bash">
 docker build -t blog_db_container db_container 
 </code></pre>
 
+It takes the Dockerfile in the directory *db_container* and build a container tagging it as *blog_db_container*
+
+Now if you run:
+
+<pre><code class="language-bash">
+docker images
+</code></pre>
+
+You could see an entry named *blog_db_container*.
+
 ###Run the database container
+
+Let's start the container now:
+
+<pre><code class="language-bash">
+# run the container mapping the postgres server port (5432) to the same port on the
+# host machine (5432)
+docker run blog_db_container
+# run the container mapping the postgres server port (5432) to port 6000 on the
+# host machine
+docker run -p 6000:5432 blog_db_container
+</code></pre>
+
+Wonderful. Now, how can we see if it works? Let's try to connect to the postgres server. Note that you need to install the postgres client on your development machine. So far we installed the postgres server in the container but we did not install anything on the real machine. To connect to the server run this command: 
+
+<pre><code class="language-bash">
+# We suppose you expose the docker database container on port 6000
+psql -h localhost -p 6000 -U blog_owner -d blog
+</code></pre>
+
+Note that when connecting we specified the username and the name of the database. These values are defined in the *setup.sql* script.
 
 ##The Spark application
 
