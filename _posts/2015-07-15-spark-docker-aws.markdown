@@ -4,12 +4,18 @@ title:  "Spark, Docker and AWS"
 author: <a href="http://tomassetti.me" target="_blank">Federico Tomassetti</a>
 date:   2015-07-15 10:00:00
 summary: >
-  Docker is gaining popularity as a tool to make deployment testable and repeatable. In this tutorial we see how to develop an application using two containers: one for the database and one for the Spark application itself.
+  Docker is gaining popularity as a tool to make deployment testable and repeatable. In this tutorial we will see how to define a docker container, how to use it during development and testing and how to use to deploy to AWS.
 ---
+
+Docker is gaining popularity as a tool to make deployment testable and repeatable. In this tutorial we will see how to define a docker container, how to use it during development and testing and how to use to deploy to AWS.
+
+Note that Docker runs natively on Linux. You can still use it with Windows or the Mac, you just need to use a sort of wrapper named *boot2docker*. Basically you need to give a couple of commands more to install and start boot2docker and then use Docker as you were on Linux.
 
 ##Overview of the application
 
-We will continue using the blog application we have developed in previous posts. Our application will run on two docker container:
+We will base this tutorial on the same blog application that we have developed in previous posts: feel free to stop and take a look at the other tutorials if you are new to Spark!
+
+Our application will run on two docker containers:
 
 * the first container will run a postgres database
 * the second container will run the spark application
