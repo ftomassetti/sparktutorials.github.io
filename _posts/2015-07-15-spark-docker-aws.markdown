@@ -24,6 +24,10 @@ As for previous posts the code is available on [GitHub](https://github.com/spark
 
 ##The database
 
+In the first container we will run a postrgres server, version 9.4. This container is based on ubuntu but feel free to change it. We need also to set permissions to give access to the server from any IPs. As you can see one of the benefits of Docker is that it forces us to precisely define every aspect of the environment: instead of instructions like "add this line to the pg_hba.conf file in directory /etc/postgresql/9.4/main/" you have a precise recipe to build the environement. Isn't this great? 
+
+So to define the container create a file named _Dockerfile_ and put it a directory named *db_container*.
+
 <pre><code class="language-bash">
 FROM ubuntu:latest
 MAINTAINER Federico Tomassetti
@@ -44,15 +48,30 @@ RUN echo "listen_addresses='*'" >> /etc/postgresql/9.4/main/postgresql.conf
 ADD ./setup.sql /db/setup.sql
 ADD ./schema.sql /db/schema.sql
 
+# We start the server and setup the database
 RUN /etc/init.d/postgresql start && sudo -u postgres psql < /db/setup.sql && /etc/init.d/postgresql stop
+# We start the server and define the tables
 RUN /etc/init.d/postgresql start && sudo -u postgres psql -d blog < /db/schema.sql && /etc/init.d/postgresql stop
 
 EXPOSE 5432
 
 USER postgres
 
+# Each time we run the container the server is started
 CMD ["/usr/lib/postgresql/9.4/bin/postgres", "-D", "/var/lib/postgresql/9.4/main", "-c", "config_file=/etc/postgresql/9.4/main/postgresql.conf"]
 </code></pre>
+
+We have seen how to define the database container. Now we need to build the container and run it. 
+
+###Build the database container
+
+I guess you figured out you need to install [Docker](https://www.docker.com/) by now. If you have not yet install it this is the right time. Don't worry, I can wait.
+
+<pre><code class="language-bash">
+docker build -t blog_db_container db_container 
+</code></pre>
+
+###Run the database container
 
 ##The Spark application
 
