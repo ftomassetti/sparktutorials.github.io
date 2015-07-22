@@ -107,6 +107,18 @@ Note that when connecting we specified the username and the name of the database
 
 ##The Spark application
 
+Our Spark application is based on Maven. Maven and Java creates a fairly portable solution, with most of the environment described in a single file (the pom.xml file), so the adoption of Docker for the Spark application itself brings less benefits than for the database.
+
+In practice we could use the existing maven docker images (see [docker-maven on GitHub](https://github.com/carlossg/docker-maven)) but we are going to rewrite our Dockerfile from scratch just to understand how it works.
+
+<pre><code class="language-bash">
+</code></pre>
+
+<pre><code class="language-bash">
+docker run -it blog_spark_container:latest
+</code></pre>
+
+
 ##Deploying on AWS
 bar
 
